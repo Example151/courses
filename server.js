@@ -59,6 +59,33 @@ server.post('/api/courses/add', (req, res) => {
     }));
 });
 
+server.put('/api/courses/edit/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) res.status(404).send('Course not found');
+
+    course.name = req.body.name;
+
+    res.send(JSON.stringify({
+        success: true,
+        message: 'Course edited successfully',
+        data: courses
+    }));
+});
+
+server.delete('/api/courses/delete/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) res.status(404).send('Course not found');
+
+    let index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    res.send(JSON.stringify({
+        success: true,
+        message: 'Course deleted successfully',
+        data: courses
+    }));
+});
+
 server.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
