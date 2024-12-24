@@ -22,13 +22,14 @@
 const express = require('express')
 const dotenv = require("dotenv");
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 dotenv.config();
 
 const server = express()
 
 server.use(express.json());
-
+server.use(cors());
 // const courses = [
 //     {id: 1, name: "Course 1"},
 //     {id: 2, name: "Course 2"},

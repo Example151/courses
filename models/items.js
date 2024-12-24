@@ -5,8 +5,18 @@ module.exports = {
         return new MainModel(item).save();
     },
     listItems: (params, options) => {
+        let sort = {};
+        let objWhere = {};
+        if (params.sortField) {
+            sort[params.sortField] = params.sortType;
+        }
+
+        if (params.keyword) {
+            objWhere['name'] = { $regex: params.keyword, $options: 'i' };
+        }
+
         if (options.task === 'all') {
-            return MainModel.find(params).select('id name status');
+            return MainModel.find(objWhere).select('id name status').sort(sort);
         } else if (options.task == 'one') {
             return MainModel.find({id: params.id}).select('id name status');
         }

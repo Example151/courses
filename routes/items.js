@@ -5,7 +5,12 @@ var router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const data = await MainModel.listItems({}, { 'task': 'all' });
+        let params = {};
+        params.sortField = req.query.sortField || 'name';
+        params.sortType = req.query.sortType || 'asc';
+        params.keyword = req.query.keyword || '';
+
+        const data = await MainModel.listItems(params, { 'task': 'all' });
 
         res.status(200).json({
             success: true,
